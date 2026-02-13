@@ -63,15 +63,22 @@ function Card({ children, className = '' }) {
 function MealCard({ meal }) {
   return (
     <div className="meal-card">
-      <div className="meal-header">
-        <span className="meal-name">{meal.name}</span>
-        <span className="meal-cal">{meal.cal} cal</span>
-      </div>
-      <p className="meal-desc">{meal.desc}</p>
-      <div className="meal-macros">
-        <span className="mp">P {meal.p}g</span>
-        <span className="mc">C {meal.c}g</span>
-        <span className="mf">F {meal.f}g</span>
+      {meal.image && (
+        <div className="meal-img-wrap">
+          <img src={meal.image} alt={meal.name} className="meal-img" loading="lazy" />
+        </div>
+      )}
+      <div className="meal-body">
+        <div className="meal-header">
+          <span className="meal-name">{meal.name}</span>
+          <span className="meal-cal">{meal.cal} cal</span>
+        </div>
+        <p className="meal-desc">{meal.desc}</p>
+        <div className="meal-macros">
+          <span className="mp">P {meal.p}g</span>
+          <span className="mc">C {meal.c}g</span>
+          <span className="mf">F {meal.f}g</span>
+        </div>
       </div>
     </div>
   );

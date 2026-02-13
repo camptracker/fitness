@@ -77,8 +77,15 @@
 /* ─── Meals ─── */
 .meal-grid { display: grid; gap: 10px; }
 .meal-card {
-  background: var(--bg-card-hover); border-radius: var(--radius-sm); padding: 14px;
+  background: var(--bg-card-hover); border-radius: var(--radius-sm); overflow: hidden;
 }
+.meal-img-wrap {
+  width: 100%; height: 140px; overflow: hidden;
+}
+.meal-img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.meal-body { padding: 12px 14px 14px; }
 .meal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
 .meal-name { font-weight: 600; font-size: 14px; }
 .meal-cal { font-size: 13px; color: var(--accent); font-weight: 700; }

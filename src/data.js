@@ -51,31 +51,34 @@ export const QUOTES = [
   "You are so much stronger than you think.",
 ];
 
+// Unsplash images (free, high quality)
+const img = (id, w=400) => `https://images.unsplash.com/photo-${id}?w=${w}&h=${Math.round(w*0.65)}&fit=crop&auto=format&q=80`;
+
 export const MEALS = {
   breakfast: [
-    { name: "Greek Yogurt Parfait", cal: 320, p: 28, c: 35, f: 8, desc: "Greek yogurt, berries, granola, honey drizzle" },
-    { name: "Veggie Egg Scramble", cal: 290, p: 22, c: 12, f: 18, desc: "3 eggs, spinach, tomatoes, feta cheese on toast" },
-    { name: "Protein Smoothie Bowl", cal: 350, p: 30, c: 40, f: 10, desc: "Protein powder, frozen açai, banana, almond butter, chia seeds" },
-    { name: "Overnight Oats", cal: 310, p: 20, c: 42, f: 9, desc: "Oats, protein powder, almond milk, PB, strawberries" },
+    { name: "Greek Yogurt Parfait", cal: 320, p: 28, c: 35, f: 8, desc: "Greek yogurt, berries, granola, honey drizzle", image: img("1488477181946-6428a0291777") },
+    { name: "Veggie Egg Scramble", cal: 290, p: 22, c: 12, f: 18, desc: "3 eggs, spinach, tomatoes, feta cheese on toast", image: img("1525351484163-7529414344d8") },
+    { name: "Protein Smoothie Bowl", cal: 350, p: 30, c: 40, f: 10, desc: "Protein powder, frozen açai, banana, almond butter, chia seeds", image: img("1590301157890-4810ed352733") },
+    { name: "Overnight Oats", cal: 310, p: 20, c: 42, f: 9, desc: "Oats, protein powder, almond milk, PB, strawberries", image: img("1517673400267-0c1ff905517c") },
   ],
   lunch: [
-    { name: "Asian Chicken Lettuce Wraps", cal: 380, p: 35, c: 18, f: 20, desc: "Ground chicken, water chestnuts, hoisin, butter lettuce cups" },
-    { name: "Mediterranean Bowl", cal: 420, p: 30, c: 38, f: 16, desc: "Grilled chicken, quinoa, cucumber, tomato, hummus, olives" },
-    { name: "Salmon Poke Bowl", cal: 440, p: 32, c: 42, f: 14, desc: "Sushi rice, raw salmon, edamame, avocado, soy-sesame dressing" },
-    { name: "Turkey & Avocado Wrap", cal: 390, p: 28, c: 30, f: 18, desc: "Whole wheat wrap, turkey, avocado, arugula, tomato, mustard" },
+    { name: "Asian Chicken Lettuce Wraps", cal: 380, p: 35, c: 18, f: 20, desc: "Ground chicken, water chestnuts, hoisin, butter lettuce cups", image: img("1529692236671-f1f6cf9683ba") },
+    { name: "Mediterranean Bowl", cal: 420, p: 30, c: 38, f: 16, desc: "Grilled chicken, quinoa, cucumber, tomato, hummus, olives", image: img("1512621776951-a57141f2eefd") },
+    { name: "Salmon Poke Bowl", cal: 440, p: 32, c: 42, f: 14, desc: "Sushi rice, raw salmon, edamame, avocado, soy-sesame dressing", image: img("1546069901-ba9599a7e63c") },
+    { name: "Turkey & Avocado Wrap", cal: 390, p: 28, c: 30, f: 18, desc: "Whole wheat wrap, turkey, avocado, arugula, tomato, mustard", image: img("1626700051175-6818013e1d4f") },
   ],
   dinner: [
-    { name: "Lemon Herb Salmon", cal: 420, p: 38, c: 22, f: 20, desc: "Baked salmon, roasted sweet potato, steamed broccoli" },
-    { name: "Korean Beef Bowl", cal: 450, p: 32, c: 40, f: 18, desc: "Lean ground beef, gochujang glaze, rice, pickled veggies, sesame" },
-    { name: "Chicken Stir Fry", cal: 400, p: 35, c: 30, f: 15, desc: "Chicken breast, bell peppers, snap peas, garlic-ginger sauce, brown rice" },
-    { name: "Turkey Taco Bowl", cal: 410, p: 34, c: 32, f: 16, desc: "Ground turkey, black beans, corn, salsa, cheese, Greek yogurt" },
-    { name: "Shrimp Pasta", cal: 430, p: 30, c: 44, f: 14, desc: "Whole wheat penne, shrimp, cherry tomatoes, garlic, olive oil, basil" },
+    { name: "Lemon Herb Salmon", cal: 420, p: 38, c: 22, f: 20, desc: "Baked salmon, roasted sweet potato, steamed broccoli", image: img("1467003909585-2f8a72700288") },
+    { name: "Korean Beef Bowl", cal: 450, p: 32, c: 40, f: 18, desc: "Lean ground beef, gochujang glaze, rice, pickled veggies, sesame", image: img("1553163147-622ab57be1c7") },
+    { name: "Chicken Stir Fry", cal: 400, p: 35, c: 30, f: 15, desc: "Chicken breast, bell peppers, snap peas, garlic-ginger sauce, brown rice", image: img("1603133872878-684f208fb84b") },
+    { name: "Turkey Taco Bowl", cal: 410, p: 34, c: 32, f: 16, desc: "Ground turkey, black beans, corn, salsa, cheese, Greek yogurt", image: img("1551504734-5ee1c4a1479b") },
+    { name: "Shrimp Pasta", cal: 430, p: 30, c: 44, f: 14, desc: "Whole wheat penne, shrimp, cherry tomatoes, garlic, olive oil, basil", image: img("1563379926898-05f4575a45d8") },
   ],
   snacks: [
-    { name: "Apple + Almond Butter", cal: 200, p: 5, c: 22, f: 12, desc: "Sliced apple with 1.5 tbsp almond butter" },
-    { name: "Protein Bar", cal: 210, p: 20, c: 22, f: 8, desc: "Low-sugar protein bar (RX Bar, Built Bar, etc.)" },
-    { name: "Cottage Cheese & Berries", cal: 160, p: 18, c: 14, f: 3, desc: "½ cup cottage cheese with mixed berries" },
-    { name: "Trail Mix", cal: 180, p: 6, c: 16, f: 12, desc: "Almonds, dark chocolate chips, dried cranberries (¼ cup)" },
+    { name: "Apple + Almond Butter", cal: 200, p: 5, c: 22, f: 12, desc: "Sliced apple with 1.5 tbsp almond butter", image: img("1568702846914-96b305d2aaeb") },
+    { name: "Protein Bar", cal: 210, p: 20, c: 22, f: 8, desc: "Low-sugar protein bar (RX Bar, Built Bar, etc.)", image: img("1622484212850-eb596d769edc") },
+    { name: "Cottage Cheese & Berries", cal: 160, p: 18, c: 14, f: 3, desc: "½ cup cottage cheese with mixed berries", image: img("1488477304992-7b1ab5be2b86") },
+    { name: "Trail Mix", cal: 180, p: 6, c: 16, f: 12, desc: "Almonds, dark chocolate chips, dried cranberries (¼ cup)", image: img("1604068549290-dea0e4a305ca") },
   ],
 };
 
