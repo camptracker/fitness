@@ -1,0 +1,143 @@
+/* ─── Layout ─── */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+.main { flex: 1; padding: 16px 16px 90px; max-width: 600px; margin: 0 auto; width: 100%; }
+
+/* ─── Bottom Nav ─── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; justify-content: space-around; align-items: center;
+  background: rgba(15, 15, 19, 0.95); backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border); padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  z-index: 100;
+}
+.nav-btn {
+  background: none; border: none; color: var(--text-muted); cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 4px 12px; transition: all 0.2s; font-family: inherit;
+}
+.nav-btn.active { color: var(--accent); }
+.nav-btn.active .nav-icon { transform: scale(1.15); }
+.nav-icon { font-size: 22px; transition: transform 0.2s; }
+.nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+
+/* ─── Typography ─── */
+.page-title { font-size: 28px; font-weight: 800; margin-bottom: 4px; background: linear-gradient(135deg, var(--text), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.page-sub { color: var(--text-dim); font-size: 14px; margin-bottom: 16px; }
+.card-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+.section-title { font-size: 18px; font-weight: 700; margin: 20px 0 10px; }
+
+/* ─── Card ─── */
+.card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 14px; transition: background 0.2s;
+}
+
+/* ─── Quote Card ─── */
+.quote-card { background: linear-gradient(135deg, #1e1b3a, #2a1f3d); border-color: var(--accent-dark); }
+.quote { font-size: 16px; font-weight: 500; font-style: italic; line-height: 1.5; color: var(--accent-light); }
+
+/* ─── Progress Card ─── */
+.progress-visual { display: flex; align-items: center; gap: 24px; }
+.ring-container { position: relative; flex-shrink: 0; }
+.ring-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+.ring-big { font-size: 28px; font-weight: 800; display: block; }
+.ring-unit { font-size: 12px; color: var(--text-dim); }
+.progress-info { flex: 1; }
+.pi-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.pi-row:last-child { border: none; }
+.pi-label { color: var(--text-dim); }
+.pi-val { font-weight: 600; }
+.pi-val.accent { color: var(--accent); }
+
+/* ─── Daily Targets ─── */
+.daily-targets { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.target-pill {
+  background: var(--bg-card-hover); border-radius: var(--radius-sm); padding: 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.tp-num { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--coral)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.tp-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+
+/* ─── Today's Plan ─── */
+.plan-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.plan-item:last-child { border: none; }
+.plan-icon { font-size: 20px; }
+
+/* ─── Macros ─── */
+.macro-card { margin-bottom: 20px; }
+.macro-bar { margin-bottom: 14px; }
+.macro-bar:last-child { margin-bottom: 0; }
+.macro-bar-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+.macro-label { font-size: 13px; font-weight: 600; }
+.macro-grams { font-size: 13px; color: var(--text-dim); }
+.bar-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+.macro-pct { font-size: 11px; color: var(--text-muted); }
+
+/* ─── Meals ─── */
+.meal-grid { display: grid; gap: 10px; }
+.meal-card {
+  background: var(--bg-card-hover); border-radius: var(--radius-sm); padding: 14px;
+}
+.meal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.meal-name { font-weight: 600; font-size: 14px; }
+.meal-cal { font-size: 13px; color: var(--accent); font-weight: 700; }
+.meal-desc { font-size: 12px; color: var(--text-dim); line-height: 1.4; margin-bottom: 8px; }
+.meal-macros { display: flex; gap: 12px; font-size: 11px; font-weight: 600; }
+.mp { color: var(--accent); }
+.mc { color: var(--coral); }
+.mf { color: var(--yellow); }
+
+/* ─── Workouts ─── */
+.workout-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+.workout-day { font-weight: 700; font-size: 15px; display: block; }
+.workout-focus { font-size: 13px; color: var(--text-dim); }
+.chevron { color: var(--text-muted); font-size: 12px; }
+.workout-body { margin-top: 14px; }
+.exercise-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.exercise-table th { text-align: left; color: var(--text-muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 4px; border-bottom: 1px solid var(--border); }
+.exercise-table td { padding: 8px 4px; border-bottom: 1px solid var(--border); }
+.exercise-table td:first-child { font-weight: 500; }
+.tip-card { background: linear-gradient(135deg, #1b2a1e, #1a2430); border-color: #2a4a35; }
+.tip-card h3 { font-size: 15px; margin-bottom: 8px; }
+.tip-card p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+/* ─── Stretching ─── */
+.stretch-dur { font-size: 13px; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
+.stretch-list { display: flex; flex-direction: column; gap: 10px; }
+.stretch-item { padding: 10px; background: var(--bg-card-hover); border-radius: var(--radius-sm); }
+.stretch-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.stretch-meta { display: flex; gap: 12px; font-size: 12px; }
+.stretch-hold { color: var(--accent); font-weight: 600; }
+.stretch-note { color: var(--text-dim); }
+
+/* ─── Plan Tab ─── */
+.plan-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+.ps-item { text-align: center; padding: 12px; background: var(--bg-card-hover); border-radius: var(--radius-sm); }
+.ps-num { display: block; font-size: 24px; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--coral)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.ps-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.plan-note { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin-bottom: 8px; }
+.plan-note strong { color: var(--accent-light); }
+
+/* ─── Milestones ─── */
+.milestones { display: flex; flex-direction: column; gap: 12px; }
+.milestone { display: flex; gap: 14px; align-items: flex-start; padding: 12px; background: var(--bg-card-hover); border-radius: var(--radius-sm); border-left: 3px solid var(--accent); }
+.ms-weight { font-weight: 800; font-size: 15px; color: var(--accent); white-space: nowrap; min-width: 55px; }
+.ms-text { font-size: 13px; line-height: 1.4; }
+
+/* ─── Tips ─── */
+.tips-list { display: flex; flex-direction: column; gap: 10px; }
+.tip-item { display: flex; gap: 12px; font-size: 13px; line-height: 1.5; }
+.tip-num { font-weight: 800; color: var(--accent); min-width: 20px; }
+
+/* ─── Motivation Quotes ─── */
+.motivation-quotes { display: flex; flex-direction: column; gap: 8px; }
+.mini-quote { font-size: 13px; color: var(--text-dim); font-style: italic; padding: 8px 12px; border-left: 2px solid var(--accent-dark); }
+
+/* ─── Desktop ─── */
+@media (min-width: 768px) {
+  .main { max-width: 700px; padding: 24px 24px 100px; }
+  .meal-grid { grid-template-columns: repeat(2, 1fr); }
+  .daily-targets { grid-template-columns: repeat(4, 1fr); }
+  .plan-stats { grid-template-columns: repeat(4, 1fr); }
+}
