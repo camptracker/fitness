@@ -19,7 +19,7 @@ export const STATS = {
 };
 
 export const MACROS = {
-  protein: { grams: 126, cals: 504, pct: 32 },  // 1g per lb
+  protein: { grams: 126, cals: 504, pct: 32 },
   carbs: { grams: 145, cals: 580, pct: 37 },
   fat: { grams: 53, cals: 477, pct: 31 },
 };
@@ -79,50 +79,61 @@ export const MEALS = {
   ],
 };
 
+// Helper: YouTube search URL for any exercise
+const yt = (q) => `https://www.youtube.com/results?search_query=${encodeURIComponent(q + ' form demo')}`;
+// Specific video links for popular exercises
+const ytv = (id) => `https://www.youtube.com/watch?v=${id}`;
+
 export const WORKOUTS = [
   {
     day: "Monday",
     focus: "Lower Body Strength 🦵",
     exercises: [
-      { name: "Barbell Back Squat", sets: 4, reps: "8-10", rest: "90s" },
-      { name: "Romanian Deadlift", sets: 3, reps: "10-12", rest: "90s" },
-      { name: "Hip Thrusts", sets: 4, reps: "10-12", rest: "60s" },
-      { name: "Bulgarian Split Squat", sets: 3, reps: "10 each", rest: "60s" },
-      { name: "Leg Curl Machine", sets: 3, reps: "12-15", rest: "45s" },
-      { name: "Calf Raises", sets: 3, reps: "15-20", rest: "30s" },
+      { name: "Goblet Squat", sets: 4, reps: "10-12", rest: "90s", video: ytv("MeIiIdhvXT4") },
+      { name: "DB Romanian Deadlift", sets: 4, reps: "10-12", rest: "90s", video: ytv("FQKfobOuSak") },
+      { name: "DB Hip Thrust on Bench", sets: 4, reps: "12-15", rest: "60s", video: ytv("SEdqd1n0cvg") },
+      { name: "Bulgarian Split Squat (DB)", sets: 3, reps: "10 each", rest: "60s", video: ytv("2C-uNgKwPLE") },
+      { name: "DB Lunges", sets: 3, reps: "10 each", rest: "60s", video: ytv("D7KaRcUTQeE") },
+      { name: "Glute Bridge", sets: 3, reps: "15-20", rest: "30s", video: ytv("OUgsJ8-Vi0E") },
+      { name: "Calf Raises (DB)", sets: 3, reps: "15-20", rest: "30s", video: ytv("gwLzBJYoWlI") },
     ],
   },
   {
     day: "Wednesday",
     focus: "Upper Body Strength 💪",
     exercises: [
-      { name: "Dumbbell Bench Press", sets: 4, reps: "8-10", rest: "90s" },
-      { name: "Bent-Over Barbell Row", sets: 4, reps: "8-10", rest: "90s" },
-      { name: "Overhead Press", sets: 3, reps: "10-12", rest: "60s" },
-      { name: "Lat Pulldown", sets: 3, reps: "10-12", rest: "60s" },
-      { name: "Lateral Raises", sets: 3, reps: "12-15", rest: "45s" },
-      { name: "Bicep Curls / Tricep Pushdown", sets: 3, reps: "12 each", rest: "45s" },
+      { name: "DB Bench Press", sets: 4, reps: "8-10", rest: "90s", video: ytv("VmB1G1K7v94") },
+      { name: "DB Row (single arm)", sets: 4, reps: "10 each", rest: "90s", video: ytv("roCP6wCXPqo") },
+      { name: "DB Overhead Press", sets: 3, reps: "10-12", rest: "60s", video: ytv("qEwKCR5JCog") },
+      { name: "Push-Ups", sets: 3, reps: "12-15", rest: "60s", video: ytv("IODxDxX7oi4") },
+      { name: "DB Lateral Raises", sets: 3, reps: "12-15", rest: "45s", video: ytv("3VcKaXpzqRo") },
+      { name: "DB Bicep Curls", sets: 3, reps: "12 each", rest: "45s", video: ytv("ykJmrZ5v0Oo") },
+      { name: "DB Tricep Extensions (overhead)", sets: 3, reps: "12", rest: "45s", video: ytv("YbX7Wd8jQ-Q") },
     ],
   },
   {
     day: "Friday",
     focus: "Full Body Power 🔥",
     exercises: [
-      { name: "Deadlift", sets: 4, reps: "6-8", rest: "2 min" },
-      { name: "Dumbbell Lunges", sets: 3, reps: "10 each", rest: "60s" },
-      { name: "Push-Ups (or DB Press)", sets: 3, reps: "12-15", rest: "60s" },
-      { name: "Cable Row", sets: 3, reps: "10-12", rest: "60s" },
-      { name: "Plank Hold", sets: 3, reps: "45-60s", rest: "30s" },
-      { name: "Kettlebell Swing", sets: 3, reps: "15", rest: "45s" },
+      { name: "DB Thrusters", sets: 4, reps: "10-12", rest: "90s", video: ytv("Iq8W7MHdKEY") },
+      { name: "Renegade Rows", sets: 3, reps: "8 each", rest: "60s", video: ytv("-domAMhRnfA") },
+      { name: "DB Clean & Press", sets: 3, reps: "10", rest: "90s", video: ytv("TIiVqXrOmn4") },
+      { name: "DB Flyes on Bench", sets: 3, reps: "12", rest: "60s", video: ytv("eozdVDA78K0") },
+      { name: "Burpees", sets: 3, reps: "10", rest: "60s", video: ytv("dZgVxmf6jkA") },
+      { name: "Mountain Climbers", sets: 3, reps: "20 each", rest: "45s", video: ytv("nmwgirgXLYM") },
+      { name: "Plank Hold", sets: 3, reps: "45-60s", rest: "30s", video: ytv("ASdvN_XEl_c") },
     ],
   },
   {
     day: "Saturday (Optional)",
-    focus: "Active Recovery & Cardio 🏃‍♀️",
+    focus: "Active Recovery & Core 🏃‍♀️",
     exercises: [
-      { name: "30-min walk, jog, or cycling", sets: 1, reps: "30 min", rest: "—" },
-      { name: "Yoga Flow", sets: 1, reps: "20 min", rest: "—" },
-      { name: "Foam Rolling", sets: 1, reps: "10 min", rest: "—" },
+      { name: "30-min walk, jog, or cycling", sets: 1, reps: "30 min", rest: "—", video: yt("walking cardio") },
+      { name: "Dead Bugs", sets: 3, reps: "10 each", rest: "30s", video: ytv("I5xbsA71kIo") },
+      { name: "Bicycle Crunches", sets: 3, reps: "15 each", rest: "30s", video: ytv("9FGilxCbdz8") },
+      { name: "Leg Raises", sets: 3, reps: "12-15", rest: "30s", video: ytv("JB2oyawG9KI") },
+      { name: "Bird Dogs", sets: 3, reps: "10 each", rest: "30s", video: ytv("wiFNA3sqjCA") },
+      { name: "Foam Rolling", sets: 1, reps: "10 min", rest: "—", video: ytv("t7Gv3jKMKaM") },
     ],
   },
 ];
@@ -132,39 +143,39 @@ export const STRETCHING = {
     title: "Morning Mobility Flow ☀️",
     duration: "10-15 min",
     moves: [
-      { name: "Cat-Cow", hold: "10 reps", note: "Warm up the spine" },
-      { name: "World's Greatest Stretch", hold: "30s each side", note: "Hip flexors + thoracic rotation" },
-      { name: "90/90 Hip Stretch", hold: "45s each side", note: "Internal & external hip rotation" },
-      { name: "Thread the Needle", hold: "30s each side", note: "Thoracic spine mobility" },
-      { name: "Standing Hamstring Stretch", hold: "30s each leg", note: "Gentle forward fold" },
-      { name: "Shoulder Pass-Throughs", hold: "10 reps", note: "Use band or towel" },
-      { name: "Neck Circles", hold: "30s each direction", note: "Slow, controlled" },
+      { name: "Cat-Cow", hold: "10 reps", note: "Warm up the spine", video: ytv("kqnua4rHVVA") },
+      { name: "World's Greatest Stretch", hold: "30s each side", note: "Hip flexors + thoracic rotation", video: ytv("u3CRivJbpSc") },
+      { name: "90/90 Hip Stretch", hold: "45s each side", note: "Internal & external hip rotation", video: ytv("8p6FtlqpAYg") },
+      { name: "Thread the Needle", hold: "30s each side", note: "Thoracic spine mobility", video: ytv("RalHOFqJR9s") },
+      { name: "Standing Hamstring Stretch", hold: "30s each leg", note: "Gentle forward fold", video: ytv("FDwpEdBHwSA") },
+      { name: "Shoulder Pass-Throughs", hold: "10 reps", note: "Use band or towel", video: ytv("gBcOJ99l-xw") },
+      { name: "Neck Circles", hold: "30s each direction", note: "Slow, controlled", video: ytv("6cE1MW5dBms") },
     ],
   },
   warmup: {
     title: "Pre-Workout Warm-Up 🔥",
     duration: "5-8 min",
     moves: [
-      { name: "Jumping Jacks", hold: "30s", note: "Elevate heart rate" },
-      { name: "Leg Swings (front/back)", hold: "10 each leg", note: "Dynamic hip opener" },
-      { name: "Leg Swings (lateral)", hold: "10 each leg", note: "Adductor warm-up" },
-      { name: "Arm Circles", hold: "10 each direction", note: "Shoulder warm-up" },
-      { name: "Bodyweight Squats", hold: "10 reps", note: "Activate glutes & quads" },
-      { name: "Inchworms", hold: "5 reps", note: "Full body activation" },
-      { name: "Hip Circles", hold: "10 each direction", note: "Open up the hips" },
+      { name: "Jumping Jacks", hold: "30s", note: "Elevate heart rate", video: ytv("c4DAnQ6DtF8") },
+      { name: "Leg Swings (front/back)", hold: "10 each leg", note: "Dynamic hip opener", video: ytv("gBcOJ99l-xw") },
+      { name: "Leg Swings (lateral)", hold: "10 each leg", note: "Adductor warm-up", video: ytv("KKelF7GqJdQ") },
+      { name: "Arm Circles", hold: "10 each direction", note: "Shoulder warm-up", video: ytv("140RTnMciIg") },
+      { name: "Bodyweight Squats", hold: "10 reps", note: "Activate glutes & quads", video: ytv("aclHkVaku9U") },
+      { name: "Inchworms", hold: "5 reps", note: "Full body activation", video: ytv("VSp-UqgiZH4") },
+      { name: "Hip Circles", hold: "10 each direction", note: "Open up the hips", video: ytv("oSWG9S05nSg") },
     ],
   },
   postWorkout: {
     title: "Post-Workout Cool Down 🧊",
     duration: "8-10 min",
     moves: [
-      { name: "Pigeon Pose", hold: "45s each side", note: "Deep glute/hip stretch" },
-      { name: "Seated Hamstring Stretch", hold: "30s each leg", note: "Straight leg, reach forward" },
-      { name: "Quad Stretch (standing)", hold: "30s each leg", note: "Hold ankle, keep knees together" },
-      { name: "Chest Doorway Stretch", hold: "30s each arm", note: "Open chest & front delts" },
-      { name: "Child's Pose", hold: "45s", note: "Low back release" },
-      { name: "Supine Spinal Twist", hold: "30s each side", note: "Low back & hip release" },
-      { name: "Deep Breathing", hold: "1 min", note: "Box breath: 4-4-4-4" },
+      { name: "Pigeon Pose", hold: "45s each side", note: "Deep glute/hip stretch", video: ytv("UKjBEkPFM0A") },
+      { name: "Seated Hamstring Stretch", hold: "30s each leg", note: "Straight leg, reach forward", video: ytv("FDwpEdBHwSA") },
+      { name: "Quad Stretch (standing)", hold: "30s each leg", note: "Hold ankle, keep knees together", video: ytv("YO6JNQwneJI") },
+      { name: "Chest Doorway Stretch", hold: "30s each arm", note: "Open chest & front delts", video: ytv("WJVMaC-RgCc") },
+      { name: "Child's Pose", hold: "45s", note: "Low back release", video: ytv("2MJGg-dUKh0") },
+      { name: "Supine Spinal Twist", hold: "30s each side", note: "Low back & hip release", video: ytv("g_njeSCOFVc") },
+      { name: "Deep Breathing", hold: "1 min", note: "Box breath: 4-4-4-4", video: ytv("tEmt1Znux58") },
     ],
   },
 };

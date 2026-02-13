@@ -13,12 +13,12 @@
 .nav-btn {
   background: none; border: none; color: var(--text-muted); cursor: pointer;
   display: flex; flex-direction: column; align-items: center; gap: 2px;
-  padding: 4px 12px; transition: all 0.2s; font-family: inherit;
+  padding: 4px 8px; transition: all 0.2s; font-family: inherit;
 }
 .nav-btn.active { color: var(--accent); }
 .nav-btn.active .nav-icon { transform: scale(1.15); }
-.nav-icon { font-size: 22px; transition: transform 0.2s; }
-.nav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+.nav-icon { font-size: 20px; transition: transform 0.2s; }
+.nav-label { font-size: 9px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
 
 /* ─── Typography ─── */
 .page-title { font-size: 28px; font-weight: 800; margin-bottom: 4px; background: linear-gradient(135deg, var(--text), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -101,15 +101,62 @@
 .tip-card { background: linear-gradient(135deg, #1b2a1e, #1a2430); border-color: #2a4a35; }
 .tip-card h3 { font-size: 15px; margin-bottom: 8px; }
 .tip-card p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+.tip-card strong { color: var(--accent-light); }
+
+/* ─── Video Links ─── */
+.video-link {
+  color: var(--coral); font-size: 11px; font-weight: 600; text-decoration: none;
+  white-space: nowrap; transition: color 0.2s;
+}
+.video-link:hover { color: var(--coral-light); text-decoration: underline; }
 
 /* ─── Stretching ─── */
 .stretch-dur { font-size: 13px; color: var(--accent); margin-bottom: 12px; font-weight: 600; }
 .stretch-list { display: flex; flex-direction: column; gap: 10px; }
 .stretch-item { padding: 10px; background: var(--bg-card-hover); border-radius: var(--radius-sm); }
-.stretch-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.stretch-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.stretch-name { font-weight: 600; font-size: 14px; }
 .stretch-meta { display: flex; gap: 12px; font-size: 12px; }
 .stretch-hold { color: var(--accent); font-weight: 600; }
 .stretch-note { color: var(--text-dim); }
+
+/* ─── Weight Log ─── */
+.log-form { display: flex; gap: 8px; flex-wrap: wrap; }
+.log-input {
+  flex: 1; min-width: 120px; padding: 10px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--bg-card-hover); color: var(--text);
+  font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.2s;
+}
+.log-input:focus { border-color: var(--accent); }
+.log-input::-webkit-calendar-picker-indicator { filter: invert(0.7); }
+.log-btn {
+  padding: 10px 20px; border-radius: var(--radius-sm); border: none;
+  background: linear-gradient(135deg, var(--accent), var(--coral)); color: white;
+  font-weight: 700; font-size: 14px; cursor: pointer; transition: opacity 0.2s;
+  font-family: inherit;
+}
+.log-btn:hover { opacity: 0.85; }
+
+.log-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.log-stat { text-align: center; padding: 10px 4px; background: var(--bg-card-hover); border-radius: var(--radius-sm); }
+.log-stat-num { display: block; font-size: 20px; font-weight: 800; }
+.log-stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+
+.chart-container { width: 100%; overflow: hidden; }
+.weight-chart { width: 100%; height: auto; min-height: 120px; }
+
+.log-entries { display: flex; flex-direction: column; gap: 6px; }
+.log-entry {
+  display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+  background: var(--bg-card-hover); border-radius: var(--radius-sm);
+}
+.log-entry-date { flex: 1; font-size: 13px; color: var(--text-dim); }
+.log-entry-weight { font-weight: 700; font-size: 15px; }
+.log-entry-del {
+  background: none; border: none; color: var(--text-muted); cursor: pointer;
+  font-size: 14px; padding: 4px 8px; border-radius: 4px; transition: all 0.2s;
+}
+.log-entry-del:hover { color: var(--coral); background: rgba(255,126,179,0.1); }
 
 /* ─── Plan Tab ─── */
 .plan-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }

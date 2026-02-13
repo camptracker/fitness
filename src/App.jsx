@@ -1,14 +1,25 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { STATS, MACROS, QUOTES, MEALS, WORKOUTS, STRETCHING, MILESTONES, TIPS } from './data';
 import './App.css';
 
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
+  { id: 'log', label: 'Log', icon: '⚖️' },
   { id: 'workouts', label: 'Workouts', icon: '🏋️' },
   { id: 'meals', label: 'Meals', icon: '🥗' },
   { id: 'stretching', label: 'Stretch', icon: '🧘' },
   { id: 'plan', label: 'Plan', icon: '📋' },
 ];
+
+// ─── localStorage helpers ───
+function loadWeightLog() {
+  try { return JSON.parse(localStorage.getItem('weightLog') || '[]'); } catch { return []; }
+}
+function saveWeightLog(entries) {
+  localStorage.setItem('weightLog', JSON.stringify(entries));
+}
+
+// ─── Shared Components ───
 
 function ProgressRing({ pct, size = 120, stroke = 8 }) {
   const r = (size - stroke) / 2;
@@ -66,12 +77,69 @@ function MealCard({ meal }) {
   );
 }
 
+function VideoLink({ url, label }) {
+  if (!url) return null;
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer" className="video-link" title={label || 'Watch form demo'}>
+      ▶ Watch Form
+    </a>
+  );
+}
+
+// ─── Simple SVG Line Chart ───
+function WeightChart({ entries, goalWeight }) {
+  const canvasRef = useRef(null);
+  if (entries.length < 1) return null;
+
+  const sorted = [...entries].sort((a, b) => new Date(a.date) - new Date(b.date));
+  const weights = sorted.map(e => e.weight);
+  const minW = Math.min(...weights, goalWeight) - 2;
+  const maxW = Math.max(...weights) + 2;
+  const W = 100, H = 50;
+  const padX = 0, padY = 4;
+
+  const points = sorted.map((e, i) => {
+    const x = sorted.length === 1 ? W / 2 : padX + (i / (sorted.length - 1)) * (W - 2 * padX);
+    const y = padY + ((maxW - e.weight) / (maxW - minW)) * (H - 2 * padY);
+    return { x, y, ...e };
+  });
+
+  const goalY = padY + ((maxW - goalWeight) / (maxW - minW)) * (H - 2 * padY);
+  const line = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ');
+
+  return (
+    <div className="chart-container">
+      <svg viewBox={`0 0 ${W} ${H + 8}`} className="weight-chart" preserveAspectRatio="none">
+        {/* Goal line */}
+        <line x1={0} y1={goalY} x2={W} y2={goalY} stroke="var(--green)" strokeWidth="0.3" strokeDasharray="2,2" />
+        <text x={W - 1} y={goalY - 1} fill="var(--green)" fontSize="3" textAnchor="end">Goal {goalWeight}</text>
+        {/* Line */}
+        <path d={line} fill="none" stroke="url(#grad)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+        {/* Dots */}
+        {points.map((p, i) => (
+          <g key={i}>
+            <circle cx={p.x} cy={p.y} r="1.5" fill="var(--accent)" />
+            <text x={p.x} y={p.y - 3} fill="var(--text-dim)" fontSize="2.8" textAnchor="middle">{p.weight}</text>
+            <text x={p.x} y={H + 6} fill="var(--text-muted)" fontSize="2.2" textAnchor="middle">
+              {new Date(p.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+            </text>
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 // ─── TABS ───
 
 function Dashboard() {
-  const lostSoFar = 0; // static starting point
+  const entries = loadWeightLog();
+  const latestWeight = entries.length > 0
+    ? [...entries].sort((a, b) => new Date(b.date) - new Date(a.date))[0].weight
+    : STATS.currentWeight;
+  const lostSoFar = STATS.currentWeight - latestWeight;
   const totalToLose = STATS.currentWeight - STATS.goalWeight;
-  const pct = Math.round((lostSoFar / totalToLose) * 100);
+  const pct = totalToLose > 0 ? Math.round((lostSoFar / totalToLose) * 100) : 0;
   const quoteIdx = new Date().getDate() % QUOTES.length;
 
   return (
@@ -85,17 +153,18 @@ function Dashboard() {
       <Card className="progress-card">
         <div className="progress-visual">
           <div className="ring-container">
-            <ProgressRing pct={pct || 2} size={140} stroke={10} />
+            <ProgressRing pct={Math.max(pct, 2)} size={140} stroke={10} />
             <div className="ring-text">
-              <span className="ring-big">{STATS.currentWeight}</span>
+              <span className="ring-big">{latestWeight}</span>
               <span className="ring-unit">lbs</span>
             </div>
           </div>
           <div className="progress-info">
-            <div className="pi-row"><span className="pi-label">Current</span><span className="pi-val">{STATS.currentWeight} lbs</span></div>
+            <div className="pi-row"><span className="pi-label">Current</span><span className="pi-val">{latestWeight} lbs</span></div>
+            <div className="pi-row"><span className="pi-label">Start</span><span className="pi-val">{STATS.currentWeight} lbs</span></div>
             <div className="pi-row"><span className="pi-label">Goal</span><span className="pi-val accent">{STATS.goalWeight} lbs</span></div>
-            <div className="pi-row"><span className="pi-label">To lose</span><span className="pi-val">{totalToLose} lbs</span></div>
-            <div className="pi-row"><span className="pi-label">Timeline</span><span className="pi-val">~{STATS.weeksToGoal} weeks</span></div>
+            <div className="pi-row"><span className="pi-label">Lost so far</span><span className="pi-val" style={{ color: lostSoFar > 0 ? 'var(--green)' : 'var(--text)' }}>{lostSoFar > 0 ? `-${lostSoFar}` : lostSoFar} lbs</span></div>
+            <div className="pi-row"><span className="pi-label">Remaining</span><span className="pi-val">{Math.max(0, latestWeight - STATS.goalWeight)} lbs</span></div>
           </div>
         </div>
       </Card>
@@ -124,12 +193,85 @@ function Dashboard() {
   );
 }
 
+function WeightLogTab() {
+  const [entries, setEntries] = useState(loadWeightLog);
+  const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [weight, setWeight] = useState('');
+
+  const updateEntries = (newEntries) => {
+    setEntries(newEntries);
+    saveWeightLog(newEntries);
+  };
+
+  const addEntry = () => {
+    const w = parseFloat(weight);
+    if (!w || !date) return;
+    // Replace existing entry for same date
+    const filtered = entries.filter(e => e.date !== date);
+    const newEntries = [...filtered, { date, weight: w }].sort((a, b) => new Date(a.date) - new Date(b.date));
+    updateEntries(newEntries);
+    setWeight('');
+  };
+
+  const deleteEntry = (dateToDelete) => {
+    updateEntries(entries.filter(e => e.date !== dateToDelete));
+  };
+
+  const sorted = [...entries].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const latestWeight = sorted.length > 0 ? sorted[0].weight : STATS.currentWeight;
+  const lostSoFar = STATS.currentWeight - latestWeight;
+  const remaining = Math.max(0, latestWeight - STATS.goalWeight);
+
+  return (
+    <div className="tab-content">
+      <h1 className="page-title">Weight Log ⚖️</h1>
+      <p className="page-sub">Track bi-weekly weigh-ins</p>
+
+      <Card>
+        <h2 className="card-title">📝 Add Entry</h2>
+        <div className="log-form">
+          <input type="date" value={date} onChange={e => setDate(e.target.value)} className="log-input" />
+          <input type="number" step="0.1" placeholder="Weight (lbs)" value={weight} onChange={e => setWeight(e.target.value)}
+            className="log-input" onKeyDown={e => e.key === 'Enter' && addEntry()} />
+          <button className="log-btn" onClick={addEntry}>+ Add</button>
+        </div>
+      </Card>
+
+      <Card>
+        <h2 className="card-title">📈 Progress</h2>
+        <div className="log-stats">
+          <div className="log-stat"><span className="log-stat-num" style={{ color: 'var(--accent)' }}>{STATS.currentWeight}</span><span className="log-stat-label">Start</span></div>
+          <div className="log-stat"><span className="log-stat-num">{latestWeight}</span><span className="log-stat-label">Current</span></div>
+          <div className="log-stat"><span className="log-stat-num" style={{ color: lostSoFar > 0 ? 'var(--green)' : 'var(--text)' }}>{lostSoFar > 0 ? `-${lostSoFar}` : lostSoFar}</span><span className="log-stat-label">Lost</span></div>
+          <div className="log-stat"><span className="log-stat-num" style={{ color: 'var(--coral)' }}>{remaining}</span><span className="log-stat-label">To Go</span></div>
+        </div>
+        <WeightChart entries={entries} goalWeight={STATS.goalWeight} />
+      </Card>
+
+      {sorted.length > 0 && (
+        <Card>
+          <h2 className="card-title">📋 Entries</h2>
+          <div className="log-entries">
+            {sorted.map((e) => (
+              <div className="log-entry" key={e.date}>
+                <span className="log-entry-date">{new Date(e.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                <span className="log-entry-weight">{e.weight} lbs</span>
+                <button className="log-entry-del" onClick={() => deleteEntry(e.date)} title="Delete">✕</button>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
+    </div>
+  );
+}
+
 function WorkoutsTab() {
   const [openDay, setOpenDay] = useState(0);
   return (
     <div className="tab-content">
       <h1 className="page-title">Workout Plan 🏋️</h1>
-      <p className="page-sub">3-4x per week · Strength focused · Progressive overload</p>
+      <p className="page-sub">Mon/Wed/Fri/Sat · Dumbbells + Bench · Progressive overload</p>
 
       {WORKOUTS.map((w, i) => (
         <Card key={i} className={`workout-card ${openDay === i ? 'open' : ''}`}>
@@ -143,10 +285,16 @@ function WorkoutsTab() {
           {openDay === i && (
             <div className="workout-body">
               <table className="exercise-table">
-                <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th></tr></thead>
+                <thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Rest</th><th></th></tr></thead>
                 <tbody>
                   {w.exercises.map((e, j) => (
-                    <tr key={j}><td>{e.name}</td><td>{e.sets}</td><td>{e.reps}</td><td>{e.rest}</td></tr>
+                    <tr key={j}>
+                      <td>{e.name}</td>
+                      <td>{e.sets}</td>
+                      <td>{e.reps}</td>
+                      <td>{e.rest}</td>
+                      <td><VideoLink url={e.video} label={e.name} /></td>
+                    </tr>
                   ))}
                 </tbody>
               </table>
@@ -156,8 +304,8 @@ function WorkoutsTab() {
       ))}
 
       <Card className="tip-card">
-        <h3>💡 Progressive Overload</h3>
-        <p>Each week, aim to increase weight by 2.5-5 lbs OR add 1-2 reps. Track your lifts! When you can complete all reps with good form, it's time to go heavier.</p>
+        <h3>💡 Equipment Needed</h3>
+        <p>All exercises use <strong>dumbbells + workout bench</strong> only. No barbell, cable machine, or gym machines needed. Start with a weight that lets you complete all reps with good form, then increase by 2.5-5 lbs when it feels easy.</p>
       </Card>
     </div>
   );
@@ -206,7 +354,10 @@ function StretchingTab() {
           <div className="stretch-list">
             {s.moves.map((m, j) => (
               <div className="stretch-item" key={j}>
-                <div className="stretch-name">{m.name}</div>
+                <div className="stretch-top-row">
+                  <div className="stretch-name">{m.name}</div>
+                  {m.video && <VideoLink url={m.video} label={m.name} />}
+                </div>
                 <div className="stretch-meta">
                   <span className="stretch-hold">{m.hold}</span>
                   <span className="stretch-note">{m.note}</span>
@@ -280,6 +431,7 @@ export default function App() {
   const content = useMemo(() => {
     switch (tab) {
       case 'dashboard': return <Dashboard />;
+      case 'log': return <WeightLogTab />;
       case 'workouts': return <WorkoutsTab />;
       case 'meals': return <MealsTab />;
       case 'stretching': return <StretchingTab />;
